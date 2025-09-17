@@ -39,7 +39,12 @@ logger = logging.getLogger()
 
 def database_exists(conn_factory: DatabaseConnectionFactory, dbname: Optional[str]=None) -> bool:
     """
-        Checks to see if the specified database exists.
+        Check if the specified database exists.
+
+        :param conn_factory: Factory used to construct the database connection string.
+        :param dbname: Optional database name override for the profile default.
+
+        :returns: ``True`` if the database exists, otherwise ``False``.
     """
     conn_str = conn_factory.format_connection_string(dbname=dbname)
 
@@ -49,8 +54,12 @@ def database_exists(conn_factory: DatabaseConnectionFactory, dbname: Optional[st
 
 
 def database_create(conn_factory: DatabaseConnectionFactory, dbname: Optional[str]=None, dbmetadata: Optional[MetaData]=None):
-    """ 
-        Creates the specified database.
+    """
+        Create the specified database.
+
+        :param conn_factory: Factory used to construct the database connection string.
+        :param dbname: Optional database name override for the profile default.
+        :param dbmetadata: SQLAlchemy metadata describing the schema to realize.
     """
 
     conn_str = conn_factory.format_connection_string(dbname=dbname)
@@ -66,12 +75,14 @@ def database_create(conn_factory: DatabaseConnectionFactory, dbname: Optional[st
 
 def create_network_attached_database(db_profile: DatabaseBasicSocketProfile, cred_manager: CredentialManager, orm_metadata: MetaData, *, reset: bool = False):
     """
-        Creates the 'pychestrate' database.
-    
-        :param db_profile: The database profile configuration.
+        Create a network attached database if it does not exist, optionally resetting it first.
+
+        :param db_profile: Database profile containing the connection configuration.
         :param cred_manager: Credential manager instance for obtaining credentials.
-        :param orm_metadata: The Object Relational Model to use when creating the database. 
-        :param reset: When ``True`` delete the existing database before creation.
+        :param orm_metadata: Object relational mapping used to create database structures.
+        :param reset: When ``True`` drop the existing database before creation.
+
+        :raises: ConfigurationError
     """
     db_name = db_profile.dbname
 
@@ -99,14 +110,13 @@ def create_network_attached_database(db_profile: DatabaseBasicSocketProfile, cre
 
 def open_network_attached_database(db_profile: DatabaseBasicSocketProfile, cred_manager: CredentialManager) -> SqlEngine:
     """
-        Opens the postgresql database.
+        Open a network attached database and return a SQLAlchemy engine.
 
-        :param db_profile: The database profile configuration.
+        :param db_profile: Database profile containing the connection configuration.
         :param cred_manager: Credential manager instance for obtaining credentials.
-        :param orm_metadata: The Object Relational Model to use when creating the database. 
-        :param reset: When ``True`` delete the existing database before creation.
 
-        :returns: A :class:`SqlEngine` object that can be used to interoperate with the specified database.
+        :returns: SQLAlchemy engine configured for the specified database.
+        :raises: ConfigurationError
     """
     dbname = db_profile.dbname
 
@@ -125,12 +135,13 @@ def open_network_attached_database(db_profile: DatabaseBasicSocketProfile, cred_
 
 def reset_network_attached_database(db_profile: DatabaseBasicSocketProfile, cred_manager: CredentialManager, orm_metadata: MetaData):
     """
-        Reset a network attached database database.
+        Reset a network attached database by truncating all mapped tables.
 
-        :param db_profile: The database profile configuration.
+        :param db_profile: Database profile containing the connection configuration.
         :param cred_manager: Credential manager instance for obtaining credentials.
-        :param orm_metadata: The Object Relational Model to use when creating the database. 
-        :param reset: When ``True`` delete the existing database before creation.
+        :param orm_metadata: Object relational mapping that identifies the tables to truncate.
+
+        :raises: ConfigurationError
     """
     dbname = db_profile.dbname
 

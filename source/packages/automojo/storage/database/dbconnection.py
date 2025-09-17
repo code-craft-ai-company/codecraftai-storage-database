@@ -19,7 +19,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine as SqlEngine
 
-from automojo.errors.exceptions import ConfigurationError, NotOverloadedError
+from automojo.errors.exceptions import ConfigurationError
 
 from automojo.credentials.basecredential import BaseCredential
 from automojo.credentials.basiccredential import BasicCredential
@@ -33,8 +33,18 @@ logger = logging.getLogger()
 
 
 class DatabaseConnectionFactory:
+    """
+        Base factory that provides a consistent interface for database engines.
+    """
 
     def __init__(self, profile_name: str, *, dbprofile: DatabaseBasicSocketProfile, credential: BaseCredential):
+        """
+            Store the identifying profile information and credential for the factory.
+
+            :param profile_name: Name of the profile that created the factory.
+            :param dbprofile: Database profile that contains the connection parameters.
+            :param credential: Credential object used when creating connections.
+        """
         self._profile_name = profile_name
         self._dbprofile = dbprofile
         self._credential = credential
@@ -42,33 +52,74 @@ class DatabaseConnectionFactory:
     
     @property
     def credential(self) -> BaseCredential:
+        """
+            Return the credential object backing this factory.
+        """
         return self._credential
     
     @property
     def dbprofile(self) -> DatabaseBasicSocketProfile:
+        """
+            Return the database profile associated with this factory.
+        """
         return self._dbprofile
     
     @property
     def profile_name(self) -> str:
+        """
+            Return the identifier for the originating database profile.
+        """
         return self._profile_name
 
     def create_engine(self, *, dbname=None, echo=True) -> SqlEngine:
+        """
+            Placeholder that derived types must implement in order to create engines.
+
+            :param dbname: Optional name of the database to connect to.
+            :param echo: Flag forwarded to SQLAlchemy for logging emitted SQL.
+
+            :raises: NotImplementedError
+        """
         errmsg = "The 'create_engine' method must be overloaded by 'DatabaseConnectionFactory' derived types."
         raise NotImplementedError(errmsg)
     
+
     def format_connection_string() -> str:
+        """
+            Placeholder that derived types must implement to format a connection string.
+
+            :raises: NotImplementedError
+        """
         errmsg = "The 'format_connection_string' method must be overloaded by 'DatabaseConnectionFactory' derived types."
         raise NotImplementedError(errmsg)
 
 
 class BasicSocketDatabaseConnectionFactory(DatabaseConnectionFactory):
+    """
+        Create SQLAlchemy engines against socket-based database endpoints.
+    """
 
     def __init__(self, profile_name: str, *, dbprofile: DatabaseBasicSocketProfile, credential: BaseCredential):
+        """
+            Initialize the factory with the socket profile and credential details.
+
+            :param profile_name: Name of the profile that created the factory.
+            :param dbprofile: Socket based database profile backing the factory.
+            :param credential: Credential containing the user information required for login.
+        """
         super().__init__(profile_name, dbprofile=dbprofile, credential=credential)
         return
 
     def create_engine(self, *, dbname=None, echo=True) -> SqlEngine:
-        """Create a SQLAlchemy engine using pipe based connectivity."""
+        """
+            Create a SQLAlchemy engine using pipe based connectivity.
+
+            :param dbname: Optional database name override for the profile default.
+            :param echo: Flag forwarded to SQLAlchemy for logging emitted SQL.
+
+            :returns: SQLAlchemy engine instance for the configured socket profile.
+            :raises: ConfigurationError
+        """
 
         socket_path: str = self.dbprofile.socket
 
@@ -92,7 +143,12 @@ class BasicSocketDatabaseConnectionFactory(DatabaseConnectionFactory):
         return dbengine
 
     def get_connection_scheme(self):
-        """Return the SQLAlchemy connection scheme for the profile."""
+        """
+            Return the SQLAlchemy connection scheme for the configured database profile.
+
+            :returns: SQLAlchemy connection scheme string.
+            :raises: ConfigurationError
+        """
 
         conn_scheme = None
 
@@ -113,7 +169,14 @@ class BasicSocketDatabaseConnectionFactory(DatabaseConnectionFactory):
         return conn_scheme
 
     def format_connection_string(self, dbname: Optional[str] = None) -> str:
-        """Build a connection string for pipe based access."""
+        """
+            Build a connection string for pipe based access.
+
+            :param dbname: Optional database name override for the profile default.
+
+            :returns: Connection string usable by SQLAlchemy.
+            :raises: ConfigurationError
+        """
 
         conn_scheme: str = self.get_connection_scheme()
 
@@ -140,16 +203,38 @@ class BasicSocketDatabaseConnectionFactory(DatabaseConnectionFactory):
 
 
 class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
+    """
+        Create SQLAlchemy engines against TCP-based database endpoints.
+    """
 
     def __init__(self, profile_name: str, *, dbprofile: DatabaseBasicTcpProfile, credential: BaseCredential):
+        """
+            Initialize the factory for TCP database connectivity.
+
+            :param profile_name: Name of the profile used to create the factory.
+            :param dbprofile: TCP database profile backing the factory.
+            :param credential: Credential containing the user information required for login.
+        """
         super().__init__(profile_name, dbprofile=dbprofile, credential=credential)
         return
 
     @property
     def dbprofile(self) -> DatabaseBasicTcpProfile:
+        """
+            Return the TCP-specific database profile for this factory.
+        """
         return self._dbprofile
 
     def create_engine(self, *, dbname=None, echo=True) -> SqlEngine:
+        """
+            Create a SQLAlchemy engine using TCP connectivity.
+
+            :param dbname: Optional database name override for the profile default.
+            :param echo: Flag forwarded to SQLAlchemy for logging emitted SQL.
+
+            :returns: SQLAlchemy engine instance for the configured TCP profile.
+            :raises: ConfigurationError
+        """
 
         conn_scheme = None
 
@@ -188,6 +273,12 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
         return dbengine
     
     def get_connection_scheme(self):
+        """
+            Return the SQLAlchemy connection scheme based on the profile type.
+
+            :returns: SQLAlchemy connection scheme string.
+            :raises: ConfigurationError
+        """
 
         conn_scheme = None
 
@@ -210,6 +301,13 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
         return conn_scheme
 
     def format_connection_string(self, dbname: Optional[str]=None) -> str:
+        """
+            Construct a TCP connection string with optional database name override.
+
+            :param dbname: Optional database name override for the profile default.
+
+            :returns: Connection string usable by SQLAlchemy.
+        """
         
         conn_str = None
 
@@ -233,11 +331,19 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
         return conn_str
 
 
-
 DATABASE_CONNECTION_FACTORIES = {}
 
 
 def create_database_connection_factory(dbprofile: DatabaseBasicSocketProfile, cred_manager: CredentialManager) -> DatabaseConnectionFactory:
+    """
+        Return a cached or newly created factory matching the supplied profile.
+
+        :param dbprofile: Profile describing the database connection parameters.
+        :param cred_manager: Credential manager providing database credentials.
+
+        :returns: Cached or newly constructed database connection factory.
+        :raises: ConfigurationError
+    """
 
     global DATABASE_CONNECTION_FACTORIES
 
