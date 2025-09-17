@@ -54,6 +54,79 @@ The following is **NOT** allowed:
         def set_to_blah(self):
             self._c = "blahblah"  # No initialization in constructor
 
+
+Documentation Comments
+======================
+Documentation comments in this project should use the sphinx syntax of documentation comments.
+
+
+All documentation comments for classes, functions and methods should:
+
+* Be multi-line triple quote strings
+* The description of the comment should start on the second line
+* The text for the entire documentation comment is indented 4 spaces inside of the start position of the first triple quote
+* Parameter descriptions do not need to declare a type because Type hints should be given in the function signature.
+* The 'returns' description should only contain a description, the return type should be specified by a type hint
+* The 'raises' description should be a list of exception types
+
+
+Class Example
+-------------
+
+.. code-block:: python
+
+    class SomeClass:
+        """
+            This is a documentation comment for a class.
+        """
+
+
+Function Example
+----------------
+
+.. code-block:: python
+
+    def some_function(a: int, b: str) -> str:
+        """
+            This is a test function.
+
+            :param a: The value for 'a'
+            :param b: The value for 'b'
+
+            :returns: The word 'blah' in a string.
+            :raises: ValueError
+        """
+        if a <= 0:
+            raise ValueError("'a' must be greater than 0")
+
+        return "blah"
+
+
+Method Example
+--------------
+
+.. code-block:: python
+
+    class SomeClass:
+        """
+            This is a documentation comment for a class.
+        """
+
+        def some_method(self, a: int, b: str) -> str:
+            """
+                This is a test method
+
+                :param a: The value for 'a'
+                :param b: The value for 'b'
+
+                :returns: The word 'blah' in a string.
+                :raises: ValueError
+            """
+            if a <= 0:
+                raise ValueError("'a' must be greater than 0")
+
+            return "blah"
+
 Code Optimization
 =================
 
