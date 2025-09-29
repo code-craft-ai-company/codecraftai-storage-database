@@ -22,8 +22,8 @@ automojo-runtime = { git = "https://github.com/automationmojo/automojo-runtime.g
 automojo-credentials = { git = "https://github.com/automationmojo/automojo-credentials.git", branch = "main" }
 automojo-dataprofiles = { git = "https://github.com/automationmojo/automojo-dataprofiles.git", branch = "main" }
 sqlalchemy = "^2.0.43"
-psycopg2-binary = "^2.9.10"
 sqlalchemy-utils = "^0.42.0"
+psycopg2-binary = "^2.0.10"
 
 [tool.poetry.group.dev.dependencies]
 
