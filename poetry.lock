@@ -69,7 +69,7 @@ automojo-this-app = {git = "https://github.com/automationmojo/automojo-this-app.
 type = "git"
 url = "https://github.com/automationmojo/automojo-dataprofiles.git"
 reference = "main"
-resolved_reference = "457747003c089426099c780839910b79bd5d7990"
+resolved_reference = "0ee22045de97641790e1fe15512ea527b89d2fb5"
 
 [[package]]
 name = "automojo-errors"
