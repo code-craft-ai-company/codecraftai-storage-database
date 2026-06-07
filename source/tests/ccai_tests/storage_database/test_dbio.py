@@ -1,20 +1,20 @@
 """
 .. module:: test_dbio
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Unit tests for :mod:`automojo.storage.database.dbio`.
+    :synopsis: Unit tests for :mod:`ccai.storage.database.dbio`.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 
 import unittest
 
 from unittest import mock
 
-from automojo.storage.database import dbio
-from automojo.storage.database.dbconnection import DatabaseConnectionFactory
+from ccai.storage.database import dbio
+from ccai.storage.database.dbconnection import DatabaseConnectionFactory
 
 
 def _make_conn_factory(*, conn_str: str = "postgresql+psycopg2://u:p@/db?host=/sock",
@@ -52,7 +52,7 @@ def _make_db_profile(*, dbname: str = "primary_db") -> "mock.MagicMock":
 
 class TestDatabaseExists(unittest.TestCase):
     """
-        Verify the behavior of :func:`automojo.storage.database.dbio.database_exists`.
+        Verify the behavior of :func:`ccai.storage.database.dbio.database_exists`.
     """
 
     def test_delegates_to_sqlalchemy_utils(self) -> None:
@@ -99,7 +99,7 @@ class TestDatabaseExists(unittest.TestCase):
 
 class TestDatabaseCreate(unittest.TestCase):
     """
-        Verify the behavior of :func:`automojo.storage.database.dbio.database_create`.
+        Verify the behavior of :func:`ccai.storage.database.dbio.database_create`.
     """
 
     def test_creates_database_without_metadata(self) -> None:
@@ -137,7 +137,7 @@ class TestDatabaseCreate(unittest.TestCase):
 
 class TestCreateNetworkAttachedDatabase(unittest.TestCase):
     """
-        Verify the behavior of :func:`automojo.storage.database.dbio.create_network_attached_database`.
+        Verify the behavior of :func:`ccai.storage.database.dbio.create_network_attached_database`.
     """
 
     def test_creates_when_database_does_not_exist(self) -> None:
@@ -222,7 +222,7 @@ class TestCreateNetworkAttachedDatabase(unittest.TestCase):
             Verify that a ``None`` factory result causes a
             :class:`ConfigurationError`.
         """
-        from automojo.errors.exceptions import ConfigurationError
+        from ccai.errors.exceptions import ConfigurationError
 
         cred_manager = mock.MagicMock(name="cred_manager")
         profile = _make_db_profile()
@@ -239,7 +239,7 @@ class TestCreateNetworkAttachedDatabase(unittest.TestCase):
 
 class TestOpenNetworkAttachedDatabase(unittest.TestCase):
     """
-        Verify the behavior of :func:`automojo.storage.database.dbio.open_network_attached_database`.
+        Verify the behavior of :func:`ccai.storage.database.dbio.open_network_attached_database`.
     """
 
     def test_returns_engine_for_profile(self) -> None:
@@ -265,7 +265,7 @@ class TestOpenNetworkAttachedDatabase(unittest.TestCase):
             Verify that a ``None`` factory result causes a
             :class:`ConfigurationError`.
         """
-        from automojo.errors.exceptions import ConfigurationError
+        from ccai.errors.exceptions import ConfigurationError
 
         cred_manager = mock.MagicMock(name="cred_manager")
         profile = _make_db_profile()
@@ -279,7 +279,7 @@ class TestOpenNetworkAttachedDatabase(unittest.TestCase):
 
 class TestResetNetworkAttachedDatabase(unittest.TestCase):
     """
-        Verify the behavior of :func:`automojo.storage.database.dbio.reset_network_attached_database`.
+        Verify the behavior of :func:`ccai.storage.database.dbio.reset_network_attached_database`.
     """
 
     def test_truncates_tables_when_database_exists(self) -> None:
@@ -341,7 +341,7 @@ class TestResetNetworkAttachedDatabase(unittest.TestCase):
             Verify that a ``None`` factory result causes a
             :class:`ConfigurationError`.
         """
-        from automojo.errors.exceptions import ConfigurationError
+        from ccai.errors.exceptions import ConfigurationError
 
         cred_manager = mock.MagicMock(name="cred_manager")
         profile = _make_db_profile()

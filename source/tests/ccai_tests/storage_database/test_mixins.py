@@ -1,13 +1,13 @@
 """
 .. module:: test_mixins
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Unit tests for :mod:`automojo.storage.database.mixins`.
+    :synopsis: Unit tests for :mod:`ccai.storage.database.mixins`.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 
 import json
 import unittest
@@ -15,8 +15,8 @@ import unittest
 from types import SimpleNamespace
 from unittest import mock
 
-from automojo.storage.database import mixins
-from automojo.storage.database.mixins import SerializableMixIn
+from ccai.storage.database import mixins
+from ccai.storage.database.mixins import SerializableMixIn
 
 
 class _FakeModel(SerializableMixIn):

@@ -1,18 +1,18 @@
 """
 .. module:: test_dbio
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Testbase tests for :mod:`automojo.storage.database.dbio`.
+    :synopsis: Testbase tests for :mod:`ccai.storage.database.dbio`.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 
 from unittest import mock
 
-from automojo.storage.database import dbio
-from automojo.storage.database.dbconnection import DatabaseConnectionFactory
+from ccai.storage.database import dbio
+from ccai.storage.database.dbconnection import DatabaseConnectionFactory
 
 
 def _make_conn_factory(*, conn_str: str = "postgresql+psycopg2://u:p@/db?host=/sock",
@@ -211,7 +211,7 @@ def test_raises_when_factory_is_none() -> None:
         Verify that a ``None`` factory result causes a
         :class:`ConfigurationError`.
     """
-    from automojo.errors.exceptions import ConfigurationError
+    from ccai.errors.exceptions import ConfigurationError
 
     cred_manager = mock.MagicMock(name="cred_manager")
     profile = _make_db_profile()
@@ -255,7 +255,7 @@ def test_open_raises_when_factory_is_none() -> None:
         Verify that a ``None`` factory result causes a
         :class:`ConfigurationError`.
     """
-    from automojo.errors.exceptions import ConfigurationError
+    from ccai.errors.exceptions import ConfigurationError
 
     cred_manager = mock.MagicMock(name="cred_manager")
     profile = _make_db_profile()
@@ -333,7 +333,7 @@ def test_reset_raises_when_factory_is_none() -> None:
         Verify that a ``None`` factory result causes a
         :class:`ConfigurationError`.
     """
-    from automojo.errors.exceptions import ConfigurationError
+    from ccai.errors.exceptions import ConfigurationError
 
     cred_manager = mock.MagicMock(name="cred_manager")
     profile = _make_db_profile()

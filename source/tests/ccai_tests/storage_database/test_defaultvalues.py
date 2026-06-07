@@ -1,13 +1,13 @@
 """
 .. module:: test_defaultvalues
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Unit tests for :mod:`automojo.storage.database.defaultvalues`.
+    :synopsis: Unit tests for :mod:`ccai.storage.database.defaultvalues`.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 
 import unittest
 
@@ -15,12 +15,12 @@ from datetime import datetime, timedelta, timezone
 from unittest import mock
 from uuid import UUID
 
-from automojo.storage.database import defaultvalues
+from ccai.storage.database import defaultvalues
 
 
 class TestNewUuid(unittest.TestCase):
     """
-        Verify the behavior of :func:`automojo.storage.database.defaultvalues.new_uuid`.
+        Verify the behavior of :func:`ccai.storage.database.defaultvalues.new_uuid`.
     """
 
     def test_returns_a_string(self) -> None:
@@ -62,7 +62,7 @@ class TestNewUuid(unittest.TestCase):
 
 class TestUtcNow(unittest.TestCase):
     """
-        Verify the behavior of :func:`automojo.storage.database.defaultvalues.utc_now`.
+        Verify the behavior of :func:`ccai.storage.database.defaultvalues.utc_now`.
     """
 
     def test_returns_a_datetime(self) -> None:
@@ -99,7 +99,7 @@ class TestUtcNow(unittest.TestCase):
 
 class TestResetTokenExpiration(unittest.TestCase):
     """
-        Verify the behavior of :func:`automojo.storage.database.defaultvalues.reset_token_expiration`.
+        Verify the behavior of :func:`ccai.storage.database.defaultvalues.reset_token_expiration`.
     """
 
     def test_default_span_is_24_hours(self) -> None:
