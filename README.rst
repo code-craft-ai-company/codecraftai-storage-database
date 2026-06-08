@@ -1,8 +1,8 @@
 ==================================
-Automation Mojo Storage Database
+Code Craft AI Storage Database
 ==================================
 
-The ``automojo-storage-database`` package contains the common and shared types and code that provide a standardized way for an application or service to initialize connections, sessions, and to work with databases across the automojo suite.
+The ``codecraftai-storage-database`` package contains the common and shared types and code that provide a standardized way for an application or service to initialize connections, sessions, and to work with databases across the ccai suite.
 
 Highlights
 ==========
@@ -18,7 +18,7 @@ Repository Structure
 - ``development/`` - Runtime environment scripts.
 - ``repository-setup/`` - Repository homing and setup scripts.
 - ``source/packages/`` - Package source code.
-- ``source/testroots/automojo/`` - TestBase test roots.
+- ``source/testroots/ccai/`` - TestBase test roots.
 - ``userguide/`` - Standards, conventions, and documentation.
 
 Environment Setup
@@ -50,7 +50,7 @@ Run the single-host test suite:
 
 .. code-block:: bash
 
-   testbase testing run --root source/testroots/automojo --includes=automojo.tests.singlehost.storage --output=./.output
+   testbase testing run --root source/testroots/ccai --includes=ccai.tests.singlehost.storage --output=./.output
 
 Standards and Conventions
 =========================

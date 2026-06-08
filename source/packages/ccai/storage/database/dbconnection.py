@@ -7,7 +7,7 @@
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 __credits__ = []
 __version__ = "1.0.0"
 
@@ -19,14 +19,14 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.engine.base import Engine as SqlEngine
 
-from automojo.errors.exceptions import ConfigurationError
+from ccai.errors.exceptions import ConfigurationError
 
-from automojo.credentials.basecredential import BaseCredential
-from automojo.credentials.basiccredential import BasicCredential
-from automojo.credentials.credentialmanager import CredentialManager
+from ccai.credentials.basecredential import BaseCredential
+from ccai.credentials.basiccredential import BasicCredential
+from ccai.credentials.credentialmanager import CredentialManager
 
-from automojo.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
-from automojo.dataprofiles.databasebasictcpprofile import DatabaseBasicTcpProfile
+from ccai.dataprofiles.databasebasicsocketprofile import DatabaseBasicSocketProfile
+from ccai.dataprofiles.databasebasictcpprofile import DatabaseBasicTcpProfile
 
 
 logger = logging.getLogger()

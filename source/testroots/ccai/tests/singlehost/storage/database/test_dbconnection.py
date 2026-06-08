@@ -1,21 +1,21 @@
 """
 .. module:: test_dbconnection
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Testbase tests for :mod:`automojo.storage.database.dbconnection`.
+    :synopsis: Testbase tests for :mod:`ccai.storage.database.dbconnection`.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 
 from typing import Dict, Tuple
 
 from unittest import mock
 
-from automojo.errors.exceptions import ConfigurationError
-from automojo.storage.database import dbconnection
-from automojo.storage.database.dbconnection import (
+from ccai.errors.exceptions import ConfigurationError
+from ccai.storage.database import dbconnection
+from ccai.storage.database.dbconnection import (
     BasicSocketDatabaseConnectionFactory,
     BasicTcpDatabaseConnectionFactory,
     DatabaseConnectionFactory,
@@ -91,7 +91,7 @@ def _make_basic_credential(*, username: str = "ubuntu",
 
         :returns: Mock object of ``spec=BasicCredential``.
     """
-    from automojo.credentials.basiccredential import BasicCredential
+    from ccai.credentials.basiccredential import BasicCredential
 
     cred = mock.MagicMock(spec=BasicCredential)
     cred.username = username
@@ -105,7 +105,7 @@ def _make_non_basic_credential() -> "mock.MagicMock":
 
         :returns: Mock object of ``spec=BaseCredential``.
     """
-    from automojo.credentials.basecredential import BaseCredential
+    from ccai.credentials.basecredential import BaseCredential
 
     cred = mock.MagicMock(spec=BaseCredential)
     return cred

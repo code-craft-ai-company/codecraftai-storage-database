@@ -1,19 +1,19 @@
 """
 .. module:: test_defaultvalues
     :platform: Darwin, Linux, Unix, Windows
-    :synopsis: Unit tests for :mod:`automojo.storage.database.defaultvalues`.
+    :synopsis: Unit tests for :mod:`ccai.storage.database.defaultvalues`.
 
 .. moduleauthor:: Myron Walker <myron.walker@gmail.com>
 """
 
 __author__ = "Myron Walker"
-__copyright__ = "Copyright 2025, Automation Mojo LLC"
+__copyright__ = "Copyright 2025, Code Craft AI LLC"
 
 from datetime import datetime, timedelta, timezone
 from unittest import mock
 from uuid import UUID
 
-from automojo.storage.database import defaultvalues
+from ccai.storage.database import defaultvalues
 
 
 def test_returns_a_string() -> None:
