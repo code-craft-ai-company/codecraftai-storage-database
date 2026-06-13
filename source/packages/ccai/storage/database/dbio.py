@@ -18,6 +18,7 @@ from typing import Optional
 import contextlib
 import logging
 
+from sqlalchemy import text
 from sqlalchemy.engine.base import Engine as SqlEngine
 from sqlalchemy.sql.schema import MetaData
 
@@ -88,7 +89,7 @@ def create_network_attached_database(db_profile: DatabaseBasicSocketProfile, cre
 
     conn_factory = create_database_connection_factory(db_profile, cred_manager)
     if conn_factory is None:
-        db_profile_name = db_profile["name"]
+        db_profile_name = db_profile.identifier
         errmsg = "'create_ccai_enterprise_database' could not get a connection factory for profile={}".format(
             db_profile_name
         )
@@ -122,7 +123,7 @@ def open_network_attached_database(db_profile: DatabaseBasicSocketProfile, cred_
 
     conn_factory = create_database_connection_factory(db_profile, cred_manager)
     if conn_factory is None:
-        db_profile_name = db_profile["name"]
+        db_profile_name = db_profile.identifier
         errmsg = "'open_pychestrate_database' could not get a connection factory for profile={}".format(
             db_profile_name
         )
@@ -147,7 +148,7 @@ def reset_network_attached_database(db_profile: DatabaseBasicSocketProfile, cred
 
     conn_factory = create_database_connection_factory(db_profile, cred_manager)
     if conn_factory is None:
-        db_profile_name = db_profile["name"]
+        db_profile_name = db_profile.identifier
         errmsg = "'reset_pychestrate_database' could not get a connection factory for profile={}".format(
             db_profile_name
         )
@@ -159,9 +160,11 @@ def reset_network_attached_database(db_profile: DatabaseBasicSocketProfile, cred
 
         with contextlib.closing(engine.connect()) as con:
             trans = con.begin()
-            con.execute('TRUNCATE {} RESTART IDENTITY;'.format(
-                ','.join(table.name 
-                        for table in reversed(orm_metadata.sorted_tables))))
+            table_names = ','.join(
+                table.name for table in reversed(orm_metadata.sorted_tables)
+            )
+            truncate_statement = text("TRUNCATE {} RESTART IDENTITY;".format(table_names))
+            con.execute(truncate_statement)
             trans.commit()
 
     return

@@ -255,10 +255,11 @@ def test_get_connection_scheme_postgresql_socket() -> None:
     return
 
 
-def test_get_connection_scheme_unknown_returns_none_socket() -> None:
+def test_get_connection_scheme_unknown_raises_socket() -> None:
     """
-        Verify that unsupported socket dbtype values return ``None`` (the
-        current behavior of the implementation).
+        Verify that an unsupported socket dbtype raises ``ConfigurationError``
+        rather than silently yielding a ``None`` scheme (which would later
+        produce a malformed ``None://`` connection string).
     """
     profile, credential, factory = _establish_socket_env()
 
@@ -266,8 +267,13 @@ def test_get_connection_scheme_unknown_returns_none_socket() -> None:
     factory = BasicSocketDatabaseConnectionFactory(
         "socket-profile", dbprofile=unknown_profile, credential=credential)
 
-    scheme = factory.get_connection_scheme()
-    assert scheme is None
+    raised = False
+    try:
+        factory.get_connection_scheme()
+    except ConfigurationError:
+        raised = True
+
+    assert raised
     return
 
 
@@ -384,9 +390,10 @@ def test_get_connection_scheme_postgresql_tcp() -> None:
     return
 
 
-def test_get_connection_scheme_unknown_returns_none_tcp() -> None:
+def test_get_connection_scheme_unknown_raises_tcp() -> None:
     """
-        Verify that unsupported TCP dbtype values return ``None``.
+        Verify that an unsupported TCP dbtype raises ``ConfigurationError``
+        rather than silently yielding a ``None`` scheme.
     """
     profile, credential, factory = _establish_tcp_env()
 
@@ -394,8 +401,13 @@ def test_get_connection_scheme_unknown_returns_none_tcp() -> None:
     factory = BasicTcpDatabaseConnectionFactory(
         "tcp-profile", dbprofile=unknown_profile, credential=credential)
 
-    scheme = factory.get_connection_scheme()
-    assert scheme is None
+    raised = False
+    try:
+        factory.get_connection_scheme()
+    except ConfigurationError:
+        raised = True
+
+    assert raised
     return
 
 

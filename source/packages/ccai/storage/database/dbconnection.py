@@ -165,6 +165,10 @@ class BasicSocketDatabaseConnectionFactory(DatabaseConnectionFactory):
                 raise ConfigurationError(errmsg)
 
             conn_scheme = "postgresql+psycopg2"
+        else:
+            errmsg = "Unsupported database type '{}' for database profile '{}'. Only 'postgresql' is currently supported.".format(
+                self.dbprofile.dbtype, self.profile_name)
+            raise ConfigurationError(errmsg)
 
         return conn_scheme
 
@@ -262,13 +266,14 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
             logger.warn(warnmsg)
 
         if isinstance(self.credential, BasicCredential):
-            credobj: BasicCredential = self.credential
-
-            passwd = credobj.password
-
             connstr = self.format_connection_string(dbname=dbname)
-            
             dbengine = create_engine(connstr, echo=echo)
+        else:
+            errmsg = (
+                "BasicTcpDatabaseConnectionFactory requires a BasicCredential to "
+                "create an engine."
+            )
+            raise ConfigurationError(errmsg)
 
         return dbengine
     
@@ -297,6 +302,10 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
                 raise ConfigurationError(errmsg)
             
             conn_scheme = "postgresql+psycopg2"
+        else:
+            errmsg = "Unsupported database type '{}' for database profile '{}'. Only 'postgresql' is currently supported.".format(
+                self.dbprofile.dbtype, self.profile_name)
+            raise ConfigurationError(errmsg)
 
         return conn_scheme
 

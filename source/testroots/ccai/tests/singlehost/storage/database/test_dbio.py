@@ -303,8 +303,13 @@ def test_truncates_tables_when_database_exists() -> None:
 
     engine.connect.assert_called_once_with()
     connection.begin.assert_called_once_with()
-    connection.execute.assert_called_once_with(
-        "TRUNCATE table_b,table_a RESTART IDENTITY;")
+    # SQLAlchemy 2.0 requires an executable; the statement must be a ``text()``
+    # clause (a raw str raises ObjectNotExecutableError), and its SQL text must
+    # name the tables in reverse sort order.
+    connection.execute.assert_called_once()
+    executed_statement = connection.execute.call_args.args[0]
+    assert not isinstance(executed_statement, str)
+    assert str(executed_statement) == "TRUNCATE table_b,table_a RESTART IDENTITY;"
     transaction.commit.assert_called_once_with()
     connection.close.assert_called_once_with()
     return
