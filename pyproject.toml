@@ -17,17 +17,17 @@ packages = [{include="ccai", from="source/packages"}]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-codecraftai-errors = { git = "https://github.com/automationmojo/codecraftai-errors.git", branch = "main" }
-codecraftai-runtime = { git = "https://github.com/automationmojo/codecraftai-runtime.git", branch = "main" }
-codecraftai-credentials = { git = "https://github.com/automationmojo/codecraftai-credentials.git", branch = "main" }
-codecraftai-dataprofiles = { git = "https://github.com/automationmojo/codecraftai-dataprofiles.git", branch = "main" }
+codecraftai-errors = { git = "https://github.com/code-craft-ai-company/codecraftai-errors.git", branch = "main" }
+codecraftai-runtime = { git = "https://github.com/code-craft-ai-company/codecraftai-runtime.git", branch = "main" }
+codecraftai-credentials = { git = "https://github.com/code-craft-ai-company/codecraftai-credentials.git", branch = "main" }
+codecraftai-dataprofiles = { git = "https://github.com/code-craft-ai-company/codecraftai-dataprofiles.git", branch = "main" }
 sqlalchemy = "^2.0.43"
 sqlalchemy-utils = "^0.42.0"
 psycopg2-binary = "^2.0.10"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^9.0.2"
-codecraftai-testbase = { git = "https://github.com/automationmojo/codecraftai-testbase.git", branch = "main" }
+codecraftai-testbase = { git = "https://github.com/code-craft-ai-company/codecraftai-testbase.git", branch = "main" }
 
 [build-system]
 requires = ["poetry-core"]
