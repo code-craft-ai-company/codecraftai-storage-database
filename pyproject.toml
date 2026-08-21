@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "codecraftai-storage-database"
 description = "Code Craft AI - Storage Database"
-version = "0.0.1"
+version = "1.0.0"
 authors = ["Myron Walker <myron.walker@gmail.com>"]
 readme = "README.rst"
 license = "LicenseRef-CodeCraftAI-Dual-License"
@@ -17,17 +17,23 @@ packages = [{include="ccai", from="source/packages"}]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-codecraftai-errors = { git = "https://github.com/code-craft-ai-company/codecraftai-errors.git", branch = "main" }
-codecraftai-runtime = { git = "https://github.com/code-craft-ai-company/codecraftai-runtime.git", branch = "main" }
-codecraftai-credentials = { git = "https://github.com/code-craft-ai-company/codecraftai-credentials.git", branch = "main" }
-codecraftai-dataprofiles = { git = "https://github.com/code-craft-ai-company/codecraftai-dataprofiles.git", branch = "main" }
+codecraftai-errors = { version = "<2.0.0", source = "codecraftai" }
+codecraftai-runtime = { version = "<2.0.0", source = "codecraftai" }
+codecraftai-credentials = { version = "<2.0.0", source = "codecraftai" }
+codecraftai-dataprofiles = { version = "<2.0.0", source = "codecraftai" }
 sqlalchemy = "^2.0.43"
 sqlalchemy-utils = "^0.42.0"
 psycopg2-binary = "^2.0.10"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^9.0.2"
-codecraftai-testbase = { git = "https://github.com/code-craft-ai-company/codecraftai-testbase.git", branch = "main" }
+codecraftai-testbase = { version = "<2.0.0", source = "codecraftai" }
+
+
+[[tool.poetry.source]]
+name = "codecraftai"
+url = "https://code-craft.ai/licensed-repository/simple/"
+priority = "supplemental"
 
 [build-system]
 requires = ["poetry-core"]
