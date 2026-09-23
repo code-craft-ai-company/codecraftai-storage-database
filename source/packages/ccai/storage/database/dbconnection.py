@@ -84,9 +84,11 @@ class DatabaseConnectionFactory:
         raise NotImplementedError(errmsg)
     
 
-    def format_connection_string() -> str:
+    def format_connection_string(self, dbname: Optional[str] = None) -> str:
         """
             Placeholder that derived types must implement to format a connection string.
+
+            :param dbname: Optional database name override for the profile default.
 
             :raises: NotImplementedError
         """
@@ -240,8 +242,6 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
             :raises: ConfigurationError
         """
 
-        conn_scheme = None
-
         # If the database type we are creating an engine for is postgresql, make sure
         # we can import all of the postgresql dependencies.
         if self.dbprofile.dbtype == 'postgresql':
@@ -255,8 +255,6 @@ class BasicTcpDatabaseConnectionFactory(DatabaseConnectionFactory):
                 ]
                 errmsg = os.linesep.join(errmsg_lines)
                 raise ConfigurationError(errmsg)
-            
-            conn_scheme = "postgresql+psycopg2"
 
         if dbname is None and self.dbprofile.dbname is not None:
             dbname = self.dbprofile.dbname
