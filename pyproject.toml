@@ -1,6 +1,6 @@
 [project]
 name = "codecraftai-storage-database"
-version = "1.2.1"
+version = "1.2.2"
 description = "Code Craft AI - Storage Database"
 readme = "README.rst"
 license = "LicenseRef-CodeCraftAI-Source-Available"
@@ -19,7 +19,7 @@ dependencies = [
     "codecraftai-credentials>=1.0.0,<2.0.0",
     "codecraftai-dataprofiles>=1.0.0,<2.0.0",
     "sqlalchemy>=2.0.43,<3.0.0",
-    "sqlalchemy-utils>=0.42.0,<0.43.0",
+    "sqlalchemy-utils>=0.43.0,<0.44.0",
     "psycopg2-binary>=2.0.10,<3.0.0",
 ]
 
